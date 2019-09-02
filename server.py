@@ -2,10 +2,13 @@ from flask import *
 import os
 import sqlite3
 from flask_toastr import Toastr
+import requests
+import json
 
 app = Flask(__name__)
 toastr = Toastr(app)
 app.config['SECRET_KEY'] = '5791628bb0b13ce0c676dfde280ba245'
+
 
 
 def create_table():
@@ -27,6 +30,9 @@ def add_contact_to_db(full_name, tel_number, email):
     c.execute("insert into contact(full_name, tel_number, email) values (?, ?, ?)", (full_name, tel_number, email))
     conn.commit()
     flash("Contact inserted SUCCESSFULLY", "success")
+    
+    
+    
 
     # Displaying contact 
 
@@ -37,7 +43,19 @@ def index():
     c = conn.cursor()
     c.execute("select * from contact order by id DESC")
     rows = c.fetchall()
-    return render_template("contact.html", rows=rows)
+    #Api Call and display
+    url="https://beta.ourmanna.com/api/v1/get/?format=json"
+    r=requests.get(url)
+    data =json.loads(r.text)
+
+    print(data["verse"]["details"]["text"])
+    print(data["verse"]["details"]["reference"])
+    print(data["verse"]["details"]["version"])
+
+    verse=data["verse"]["details"]["text"]
+    ref=data["verse"]["details"]["reference"]
+    ver=data["verse"]["details"]["version"]
+    return render_template("contact.html", rows=rows, verse=verse,ref=ref,ver=ver)
 
 
 #getting Entered data from form

@@ -83,7 +83,8 @@
       <td>{{row["tel_number"] }}</td>
       <td>{{row["email"] }}</td>
       <td> <a href="#" data-toggle="modal" data-target='#editting{{ row["id"] }}' class="btn btn-success"><i class="fa fa-edit"></i> Edit </a>
-    <a href="#" data-toggle="modal" data-target='#deleting{{ row["id"] }}' class="btn btn-danger"><i class="fa fa-edit"></i> Delete </a> </td>
+    <a href="#" data-toggle="modal" data-target='#deleting{{ row["id"] }}' class="btn btn-danger"><i class="fa fa-edit"></i> Delete </a> 
+    <a href="#" data-toggle="modal" data-target='#sending{{ row["id"] }}' class="btn btn-primary"><i class="fa fa-edit"></i> Send </a></td>
     </tr>
   </tbody>
   {%endfor%}
@@ -132,6 +133,81 @@
 
   </div>
 </div>
+
+
+ <!-- sending Contact -->
+<!-- Modal -->
+<div class="modal fade" id='sending{{ row["id"] }}' tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">Send Contact</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+  <div class="jumbotron jumbotron-fluid">
+  <div class="container">
+   <form  action="/edit_contact">
+  <div class="row">
+
+      <input type="hidden" name="id" value='{{ row["id"] }}'  class="form-control" placeholder="Full name" >
+    <div class="col">
+      <input type="text" name="full_name" value='{{ row["full_name"] }}' name="full_name"  class="form-control" placeholder="Full name" required>
+    </div>
+    <div class="col">
+      <input type="text" name="tel_number"  value='{{ row["tel_number"] }}' name="tel_number" class="form-control" placeholder="Telephone Number" required>
+    </div>
+    <div class="col">
+      <input type="email" name="email"value='{{ row["email"] }}' name="email" class="form-control" placeholder="Email" required>
+    </div>
+  </div>
+  </div>
+</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+       
+        <button type="submit" value="submit" class="btn btn-primary">Send Contact</button>
+      </div>
+    </div>
+  </form>
+
+  </div>
+</div>
+
+
+
+
+ <!-- Pop Verse of the day-->
+
+
+
+<div class="modal fade" id='myModal' tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalCenterTitle">Verse of the Day</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body btn-primary">
+        <h3>{{verse}}</h3>
+      </div>
+      <div class="modal-footer btn-outline-primary"><h4>{{ref}}   {{ver}}</h4></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">close</button>
+
+          <form action="/delete_contact">
+
+          </form>       
+      </div>
+    </div>
+
+
+
     <!-- Deleting contact -->
 <!-- Modal -->
 <div class="modal fade" id='deleting{{ row["id"] }}' tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -154,7 +230,6 @@
             <input type=hidden value='{{ row["id"] }}' name="id" ></input>
             <button type="submit" class="btn btn-success">Yes</button>
           </form>       
-       
       </div>
     </div>
   </div>
@@ -164,9 +239,19 @@
   $(document).ready( function () {
     $('#rows').DataTable();
 } );
-  </script> 
+  </script> s
+
+
+  <script type="text/javascript">
+    $(window).on('load',function(){
+        $('#myModal').modal('show');
+    });
+</script>
+
+
 <script> $('#editting').modal(show); </script>
 <script> $('#deleting').modal(show); </script>
+<script> $('#sending').modal(show); </script>
 
     <!-- Optional JavaScript -->
    <script src="../static/bootstrap-4.1.3/jquery.min.js"></script>
