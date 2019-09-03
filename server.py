@@ -55,6 +55,7 @@ def index():
     verse=data["verse"]["details"]["text"]
     ref=data["verse"]["details"]["reference"]
     ver=data["verse"]["details"]["version"]
+   
     return render_template("contact.html", rows=rows, verse=verse,ref=ref,ver=ver)
 
 
