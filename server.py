@@ -7,6 +7,8 @@ import json
 import smtplib, ssl
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from email.message import EmailMessage
+
 
 app = Flask(__name__)
 toastr = Toastr(app)
@@ -142,8 +144,25 @@ def send_email():
     message["From"] = sender_email
     message["To"] = receiver_email
 
+
+
+
+    text = f"""\
+	Smart Height Detector
+	Thank you for using our service.
+
+	Your height details are as follows:
+
+	Your height in centimeters: full_name
+	Your height in meters: tel_number
+	Your height in inch: email
+	Click on the link to know more about IoTDevLab_UCC.
+
+	www.iotdevlabucc.com
+	"""
+
     # Create the plain-text and HTML version of your message
-    html = """\
+    html = f"""\n 
     <!DOCTYPE html>
     <html lang="en" >
 
@@ -388,7 +407,7 @@ def send_email():
         }
 
         @media only screen and (max-width: 665px) {
-          .small-float-center {
+          small-float-center {
             margin: 0 auto !important;
             float: none !important;
             text-align: center !important;
@@ -1071,7 +1090,7 @@ def send_email():
                                             <table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; padding: 0;">
                                               <tr style="vertical-align: top; padding: 0;" align="left">
                                                 <td style="word-wrap: break-word; margin: 0; padding: 8px 10px; border: 0px solid #bd8049; -webkit-hyphens: none; -moz-hyphens: none; hyphens: none; border-collapse: collapse !important; color: #fefefe; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 12px; word-break: keep-all; -ms-hyphens: none;"
-                                                  align="left" bgcolor="#bd8049" valign="top"><a href="#" style="color: #fefefe; margin: 0; padding: 8px 10px; border: 0 solid #bd8049; font-family: Helvetica, Arial, sans-serif; font-weight: bold; text-align: left; line-height: 1.3; text-decoration: none; font-size: 12px; display: inline-block; border-radius: 3px; letter-spacing: 0.08em;">Your height in centimeters: \efull_name</a></td>
+                                                  align="left" bgcolor="#bd8049" valign="top"><a href="#" style="color: #fefefe; margin: 0; padding: 8px 10px; border: 0 solid #bd8049; font-family: Helvetica, Arial, sans-serif; font-weight: bold; text-align: left; line-height: 1.3; text-decoration: none; font-size: 12px; display: inline-block; border-radius: 3px; letter-spacing: 0.08em;">Your height in centimeters: {full_name}</a></td>
                                               </tr>
                                             </table>
                                           </td>
@@ -1091,7 +1110,7 @@ def send_email():
                                             <table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; padding: 0;">
                                               <tr style="vertical-align: top; padding: 0;" align="left">
                                                 <td style="word-wrap: break-word; margin: 0; padding: 8px 10px; border: 0px solid #bd8049; -webkit-hyphens: none; -moz-hyphens: none; hyphens: none; border-collapse: collapse !important; color: #fefefe; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 12px; word-break: keep-all; -ms-hyphens: none;"
-                                                  align="left" bgcolor="#bd8049" valign="top"><a href="#" style="color: #fefefe; margin: 0; padding: 8px 10px; border: 0 solid #bd8049; font-family: Helvetica, Arial, sans-serif; font-weight: bold; text-align: left; line-height: 1.3; text-decoration: none; font-size: 12px; display: inline-block; border-radius: 3px; letter-spacing: 0.08em;">Your height in meters:  \etel_number</a></td>
+                                                  align="left" bgcolor="#bd8049" valign="top"><a href="#" style="color: #fefefe; margin: 0; padding: 8px 10px; border: 0 solid #bd8049; font-family: Helvetica, Arial, sans-serif; font-weight: bold; text-align: left; line-height: 1.3; text-decoration: none; font-size: 12px; display: inline-block; border-radius: 3px; letter-spacing: 0.08em;">Your height in meters:  {tel_number}</a></td>
                                               </tr>
                                             </table>
                                           </td>
@@ -1111,7 +1130,7 @@ def send_email():
                                             <table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; padding: 0;">
                                               <tr style="vertical-align: top; padding: 0;" align="left">
                                                 <td style="word-wrap: break-word; margin: 0; padding: 8px 10px; border: 0px solid #bd8049; -webkit-hyphens: none; -moz-hyphens: none; hyphens: none; border-collapse: collapse !important; color: #fefefe; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 12px; word-break: keep-all; -ms-hyphens: none;"
-                                                  align="left" bgcolor="#bd8049" valign="top"><a href="#" style="color: #fefefe; margin: 0; padding: 8px 10px; border: 0 solid #bd8049; font-family: Helvetica, Arial, sans-serif; font-weight: bold; text-align: left; line-height: 1.3; text-decoration: none; font-size: 12px; display: inline-block; border-radius: 3px; letter-spacing: 0.08em;">Your height in inch: \eemail</a></td>
+                                                  align="left" bgcolor="#bd8049" valign="top"><a href="#" style="color: #fefefe; margin: 0; padding: 8px 10px; border: 0 solid #bd8049; font-family: Helvetica, Arial, sans-serif; font-weight: bold; text-align: left; line-height: 1.3; text-decoration: none; font-size: 12px; display: inline-block; border-radius: 3px; letter-spacing: 0.08em;">Your height in inch: {email}</a></td>
                                               </tr>
                                             </table>
                                           </td>
@@ -1353,10 +1372,12 @@ def send_email():
     """
 
     # Turn these into plain/html MIMEText objects
+    part1 = MIMEText(text, "plain")
     part2 = MIMEText(html, "html")
 
     # Add HTML/plain-text parts to MIMEMultipart message
     # The email client will try to render the last part first
+    message.attach(part1)
     message.attach(part2)
 
     # Create secure connection with server and send email
