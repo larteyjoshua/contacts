@@ -130,9 +130,9 @@ def send_email():
     print(id)
   
 
-    sender_email = "larteyjoshua@gmail.com"
+    sender_email = "@gmail.com"
     receiver_email = email
-    password = "0249643365love"
+    password = ""
 
     message = MIMEMultipart("alternative")
     message["Subject"] = "Smart Height Detector Services"
